@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" type="text/css" href="slick/slick.css"/>
+<link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>
+<title>Actor ID Card</title>
+<style>
+  body {
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    background-color: #ede88c;
+  }
+  .actor-card {
+    width: 500px;
+    height: 250px;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    background-image: url("cinema.jpg");
+    background-position: center;
+  }
+  #dp {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-top: -80px;
+    background-image: url("dp.jpg");
+    background-position: center;
+    background-size: cover;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+  }
+  #dp:hover {
+    transform: scale(1.1);
+  }
+  .expanded-img {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+  }
+  .expanded-img img {
+    display: block;
+    margin: auto; 
+    margin-top: 15%;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+  }
+  #blur {
+    color: transparent;
+    text-shadow: 0 0 8px #000;
+  }
+  .actor-details {
+    flex-grow: 1;
+    padding-left: 15px;
+  }
+  .actor-card span {
+    font-size: medium;
+    font-style: italic;
+  }
+  .actor-card p {
+    font-size: 15px;
+    margin: 5px 0;
+  }
+  .map,#lock{
+    width: 20px;
+    height: 20px;
+    vertical-align: text-bottom;
+  }
+  .gender {
+    width: 30px;
+    margin-left: 40px;
+    margin-top: 10px;
+  }
+  .prevent-select {
+    margin-top: -10px;
+    -webkit-user-select: none; 
+    -ms-user-select: none;
+    user-select: none;
+  }
+  .tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: transparent;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .tooltip .tooltiptext button {
+    background-color: rgba(0, 0, 0, 0.533);
+    color: yellow;
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin-top: 5px;
+    border-radius: 4px;
+  }
+  #images {
+    margin-top: 90px;
+  }
+  #city {
+    padding-top: 10px;
+    margin-left: 10px;
+  }
+  .circle {
+    width: 100px;
+    height: 30px;
+    border-radius: 5%;
+    background-color: peachpuff;
+    margin-top: 5px;
+    border: 1px solid black;
+  }
+  #main {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: last baseline;
+    width: 70%;
+  }
+</style>
+</head>
+<body>
+
+  <div class="actor-card">
+    <div id="images">
+      <div id="dp"></div>
+      <p><img class="gender" src="male.png" alt="Male"></p>
+      <p id="city"><img class="map" src="location.png" alt="Location"> Madurai</p>
+    </div>
+    <div class="actor-details">
+      <div id="main">
+        <h1>KUMAR</h1>
+        <span>30 years old</span>
+      </div>     
+      <p><abbr id="blur" class="prevent-select tooltip">kumar@gmail.com<span class="tooltiptext"><button onclick="upgrade()"><img id="lock" src="lock.png" alt=""> Premium</button></span></abbr></p>
+      <p><abbr id="blur" class="prevent-select tooltip">8798192881<span class="tooltiptext"><button onclick="upgrade()"><img id="lock" src="lock.png" alt=""> Premium</button></span></abbr></p><br>
+      <p><img class="map" src="height.png" alt="Location"> 180 cms</p><br>
+      <div class="circle"></div>
+    </div>
+</div>
+<div class="expanded-img" id="expandedImg">
+  <img src="dp.jpg" alt="">
+</div>
+</div>
+<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="slick/slick.min.js"></script>
+<script>
+$(document).ready(function() {
+  $('.tooltip').on('click', function() {
+    $(this).find('.tooltiptext').toggleClass('show');
+  });
+
+  $('.tooltip').on('mouseleave', function() {
+    $(this).find('.tooltiptext').removeClass('show');
+  });
+
+  $('#dp').click(function() {
+    $('.expanded-img').fadeIn();
+  });
+  $('.expanded-img').click(function() {
+    $(this).fadeOut();
+  });
+});
+</script>
+</body>
+</html>
