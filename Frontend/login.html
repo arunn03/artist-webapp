@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.min.js"></script>
+
+    <title>Register</title>
+    <style>
+        body {
+            font-family: "Trebuchet MS", Helvetica, sans-serif;
+            background-image: url("main.jpg");
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .jumbotron {
+            position: absolute;
+            right: 8%;
+            text-align: center;
+            border-radius: 20px;
+            padding: 30px;
+            background-color: #fff;
+            box-shadow: 0px 0px 100px 0px rgba(0,0,0,0.5);
+            width: 90%;
+            max-width: 700px; 
+        }
+        h1 {
+            margin-top: 0;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #000000;
+        }
+        .row {
+            justify-content: center;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%; /* Adjusted width for smaller screens */
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            transition: border-color 0.3s ease;
+            margin-top: 5px;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #ffe100;
+        }
+        .btn-warning {
+            background-color: #ffe100;
+            color: white;
+            border: none;
+        }        
+        .gender {
+            margin-top: 19px;
+            display: flex; 
+            align-items: center;
+        }
+        .gender input[type="radio"] {
+            margin-top: -3px;
+            margin-right: 5px;
+        }
+        .form-group-btn {
+            margin-top: 10px;
+        }
+        label {
+            display: block !important;
+        }
+        .checkbox-menu li label {
+            display: block;
+            padding: 3px 10px;
+            clear: both;
+            font-weight: normal;
+            line-height: 1.42857143;
+            color: #333;
+            white-space: nowrap;
+            margin:0;
+            transition: background-color .4s ease;
+        }
+        .checkbox-menu li input {
+            margin-right: -50px;
+            margin-left: -45px;
+            top: 2px;
+            position: relative;
+        }
+
+        .checkbox-menu li.active label {
+            background-color: white;
+            font-weight:bold;
+        }
+
+        .checkbox-menu li label:hover,
+        .checkbox-menu li label:focus {
+            background-color: white;
+        }
+
+        .checkbox-menu li.active label:hover,
+        .checkbox-menu li.active label:focus {
+            background-color: white;
+        }
+        .dropdown-btn-wrapper {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            width: 60%;
+            max-width: 400px; 
+            text-align: center;
+            position: absolute;
+            top: 30%;
+            left: 40%;
+            align-items: center;
+        }
+        .blur-background {
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+        #verify {
+            margin-top: 0%;
+            margin-left: -3%;
+        }
+        .button-container {
+            flex-direction: row;
+            width: 100%;
+        }
+        #otp1, #otp2, #otp3, #otp4, #otp5, #otp6 {
+            width: 40px;
+            text-align: center;
+        }
+        .resend-link {
+            margin-top: 2%;
+            margin-left: 45%;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="jumbotron">
+        <h1>SIGN UP</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" id="name">
+                </div>
+                <div class="form-group">      
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email">
+                </div>
+                <div class="form-group">
+                    <label for="mobile">Mobile Number</label>
+                    <input type="text" name="mobile" id="mobile">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" name="city" id="city">
+                </div>
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <div class="gender">
+                        <input type="radio" name="gender" id="male">
+                        <label for="male">Male</label>
+                        <input style="margin-left: 20px" type="radio" name="gender" id="female">
+                        <label for="female">Female</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="position">Interest</label>
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" 
+                                id="dropdownMenu1" data-toggle="dropdown" 
+                                aria-haspopup="true" aria-expanded="true">
+                          <!--i class="glyphicon glyphicon-cog"></i-->Choose an interest
+                          <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu checkbox-menu allow-focus" aria-labelledby="dropdownMenu1">
+                        
+                          <li >
+                            <label>
+                              <input type="checkbox"> Director
+                            </label>
+                          </li>
+                          
+                          <li >
+                            <label>
+                              <input type="checkbox"> Actor
+                            </label>
+                          </li>
+                          
+                          <li >
+                            <label>
+                              <input type="checkbox"> Producer
+                            </label>
+                          </li>
+
+                          <li >
+                            <label>
+                              <input type="checkbox"> DOP
+                            </label>
+                          </li>
+
+                          <div class="dropdown-btn-wrapper">
+                            <button class="btn btn-warning" id="ok">OK</button>
+                          </div>
+                          
+                        </ul>
+                      </div>
+                </div>                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="retypepassword">Re-type Password</label>
+                    <input type="password" name="retypepassword" id="retypepassword">
+                </div>
+
+        </div>
+        <div class="form-group-btn">
+            <input type="submit" id="register" class="btn btn-warning" value="Register">
+        </div>
+    </div>
+    <div class="popup">
+        <div class="popup-content">
+            <h1>OTP Verification</h1>
+            <div class="form-group">
+                <label for="otp">Enter OTP:</label>
+                <div class="otp-input-container">
+                    <input type="text" maxlength="1" id="otp1" name="otp1">
+                    <input type="text" maxlength="1" id="otp2" name="otp2">
+                    <input type="text" maxlength="1" id="otp3" name="otp3">
+                    <input type="text" maxlength="1" id="otp4" name="otp4">
+                    <input type="text" maxlength="1" id="otp5" name="otp5">
+                    <input type="text" maxlength="1" id="otp6" name="otp6">
+                </div>
+            </div>            
+            <div class="button-container">
+                <button class="btn btn-warning" id="verify">Verify OTP</button>
+                <a href="#" class="resend-link">Resend OTP</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        $(document).ready(function() {
+            $('#position').multiselect({
+                includeSelectAllOption: true,
+                maxHeight: 200,
+            });
+
+            $('#ok').on('click', function() {
+                var selectedOptions = [];
+                $('.checkbox-menu li input[type="checkbox"]:checked').each(function() {
+                    selectedOptions.push($(this).parent().text().trim());
+                });
+                if (selectedOptions.length > 0) {
+                    $('#dropdownMenu1').html(selectedOptions.join(', ') + ' <span class="caret"></span>');
+                } else {
+                    $('#dropdownMenu1').html('Choose an interest <span class="caret"></span>');
+                }
+            });
+
+            $(document).on('click', '.allow-focus', function(e) {
+                e.stopPropagation();
+            });
+
+            $('#register').on('click', function() {
+                $('.popup').fadeIn();
+                $('body').addClass('blur-background')
+            });
+            $('#verify').on('click', function() {
+                $('.popup').fadeOut();
+                $('body').removeClass('blur-background')
+            });
+
+            $('.otp-input-container input').on('input', function() {
+                var $this = $(this);
+                if ($this.val().length === 1) {
+                    $this.next('input').focus();
+                }
+            });
+
+            $('.otp-input-container input').on('keydown', function(e) {
+                var $this = $(this);
+                if (e.keyCode === 8 && $this.val().length === 0) {
+                    $this.prev('input').focus();
+                }
+            });
+        });
+
+    </script>    
+</body>
+</html>
