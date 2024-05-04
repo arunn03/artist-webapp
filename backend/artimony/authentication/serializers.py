@@ -45,4 +45,4 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = 'email', 'mobile_number'
+        fields = 'email', 'mobile_number', 'admin_verified'

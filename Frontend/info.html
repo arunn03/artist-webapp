@@ -1,25 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multi-step Form</title>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+        crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.min.js"></script>
     <style>
         /* CSS styles */
         /* custom font */
-        html, body {
+        html,
+        body {
             height: 100%;
             font-family: "Trebuchet MS", Helvetica, sans-serif;
             margin: 0;
             padding: 0;
         }
-        body{
+
+        body {
             background-image: url('bg2.png');
             background-size: cover;
             background-repeat: no-repeat;
@@ -27,6 +37,7 @@
             overflow-y: hidden;
             backdrop-filter: blur(5px);
         }
+
         .expanded-img {
             position: fixed;
             top: 0;
@@ -40,14 +51,16 @@
             justify-content: center;
             align-items: center;
         }
+
         .expanded-img img {
             display: block;
-            margin: auto; 
+            margin: auto;
             margin-top: 15%;
             width: 250px;
             height: 250px;
             border-radius: 50%;
         }
+
         .profile-pic-container {
             width: 150px;
             height: 150px;
@@ -57,7 +70,8 @@
             cursor: pointer;
             margin-top: -10%;
         }
-        .profile-pic-container{
+
+        .profile-pic-container {
             width: 100px;
             height: 100px;
             margin-top: 1%;
@@ -72,6 +86,7 @@
             cursor: pointer;
             margin-bottom: 5%;
         }
+
         .options-overlay {
             position: absolute;
             top: 0;
@@ -85,19 +100,24 @@
             align-items: center;
             flex-direction: column;
         }
+
         .options-overlay button {
             margin-bottom: 5px;
             width: 50px;
         }
+
         .options-overlay button:last-child {
             margin-bottom: 0;
-        }        
+        }
+
         .options-overlay button:focus {
             outline: none;
         }
+
         .profile-pic-container:hover .options-overlay {
             display: flex;
         }
+
         .checkbox-menu li label {
             display: block;
             padding: 3px 10px;
@@ -107,9 +127,10 @@
             color: #333;
             font-size: small;
             white-space: nowrap;
-            margin:0;
+            margin: 0;
             transition: background-color .4s ease;
         }
+
         .checkbox-menu li input {
             margin-right: -50px;
             margin-left: -45px;
@@ -119,7 +140,7 @@
 
         .checkbox-menu li.active label {
             background-color: white;
-            font-weight:bold;
+            font-weight: bold;
         }
 
         .checkbox-menu li label:hover,
@@ -131,6 +152,7 @@
         .checkbox-menu li.active label:focus {
             background-color: white;
         }
+
         .dropdown-btn-wrapper {
             text-align: center;
             margin-top: 10px;
@@ -138,10 +160,14 @@
 
         #msform {
             width: 400px;
-            margin: 50px auto;
+            /* margin: 50px auto; */
             text-align: center;
             position: relative;
             align-items: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         #msform fieldset {
@@ -161,17 +187,20 @@
             display: block;
         }
 
-        #msform input, #msform textarea, #dropdownMenu1 {
+        #msform input,
+        #msform textarea,
+        #dropdownMenu1 {
             padding: 15px;
             border: 1px solid #ccc;
             border-radius: 3px;
             margin-bottom: 10px;
             width: 100%;
             box-sizing: border-box;
-            font-family: Montserrat;
+            /* font-family: Montserrat; */
             color: #2C3E50;
             font-size: 13px;
         }
+
         #dropdownMenu1 {
             text-align: left;
         }
@@ -190,7 +219,8 @@
             font-size: 14px;
         }
 
-        #msform .action-button:hover, #msform .action-button:focus {
+        #msform .action-button:hover,
+        #msform .action-button:focus {
             box-shadow: 0 0 0 2px white, 0 0 0 3px #fcb603;
         }
 
@@ -210,6 +240,7 @@
 
         #progressbar {
             margin-bottom: 30px;
+            padding: 0;
             overflow: hidden;
             counter-reset: step;
         }
@@ -252,28 +283,35 @@
             content: none;
         }
 
-        #progressbar li.active:before, #progressbar li.active:after {
+        #progressbar li.active:before,
+        #progressbar li.active:after {
             background: #fcb603;
             color: white;
         }
+
         .gender {
             display: flex;
             justify-content: flex-start;
             font-size: small;
         }
+
         .gender input[type="radio"] {
             margin-right: 2px;
         }
+
         .gender label {
             margin-right: 40px;
         }
+
         .error-message {
             color: red;
         }
+
         label img {
             width: 50px;
             height: 50px;
         }
+
         .dropzone {
             border: 2px dashed #ccc;
             border-radius: 10px;
@@ -309,9 +347,9 @@
         .file-list-item {
             margin-bottom: 5px;
         }
-        
     </style>
 </head>
+
 <body>
     <!-- multistep form -->
     <form id="msform">
@@ -344,44 +382,43 @@
             </div>
             <input type="text" name="city" placeholder="City">
             <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" 
-                        id="dropdownMenu1" data-toggle="dropdown" 
-                        aria-haspopup="true" aria-expanded="true">
-                  <!--i class="glyphicon glyphicon-cog"></i-->Choose an interest
-                  <span class="caret"></span>
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="true">
+                    <!--i class="glyphicon glyphicon-cog"></i-->Choose an interest
+                    <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu checkbox-menu allow-focus" aria-labelledby="dropdownMenu1">
-                
-                  <li >
-                    <label>
-                      <input type="checkbox"> Director
-                    </label>
-                  </li>
-                  
-                  <li >
-                    <label>
-                      <input type="checkbox"> Actor
-                    </label>
-                  </li>
-                  
-                  <li >
-                    <label>
-                      <input type="checkbox"> Producer
-                    </label>
-                  </li>
 
-                  <li >
-                    <label>
-                      <input type="checkbox"> DOP
-                    </label>
-                  </li>
+                    <li>
+                        <label>
+                            <input type="checkbox"> Director
+                        </label>
+                    </li>
 
-                  <div class="dropdown-btn-wrapper">
-                    <button class="btn btn-warning" id="ok">OK</button>
-                  </div>
-                  
+                    <li>
+                        <label>
+                            <input type="checkbox"> Actor
+                        </label>
+                    </li>
+
+                    <li>
+                        <label>
+                            <input type="checkbox"> Producer
+                        </label>
+                    </li>
+
+                    <li>
+                        <label>
+                            <input type="checkbox"> DOP
+                        </label>
+                    </li>
+
+                    <div class="dropdown-btn-wrapper">
+                        <button class="btn btn-warning" id="ok">OK</button>
+                    </div>
+
                 </ul>
-              </div>
+            </div>
             <input type="button" name="previous" class="previous action-button" value="Previous" />
             <input type="button" name="next" class="next action-button" value="Next" />
         </fieldset>
@@ -393,7 +430,7 @@
                     <button class="btn btn-primary btn-sm" id="viewProfileBtn">View</button>
                     <button class="btn btn-warning btn-sm" id="editProfileBtn">Edit</button>
                 </div>
-            </div>            
+            </div>
             <textarea name="bio" placeholder="A few words about yourself"></textarea>
             <div class="dropzone" id="dropzone">
                 <label for="fileInput"><img src="upload.png" alt="Upload"></label>
@@ -408,25 +445,25 @@
         </fieldset>
     </form>
     <script>
-        $(document).ready(function() {
-            
+        $(document).ready(function () {
+
             var current_fs, next_fs, previous_fs;
             var left, opacity, scale;
             var animating;
-    
-            $('.next').click(function() {
+
+            $('.next').click(function () {
                 if (animating) return false;
                 animating = true;
-    
+
                 current_fs = $(this).parent();
                 next_fs = $(this).parent().next();
-    
+
                 $('#progressbar li').eq($('fieldset').index(next_fs)).addClass('active');
-    
+
                 next_fs.show();
-    
+
                 var step = 0;
-                var stepInterval = setInterval(function() {
+                var stepInterval = setInterval(function () {
                     if (step >= 100) {
                         clearInterval(stepInterval);
                         current_fs.hide();
@@ -443,10 +480,10 @@
                 maxHeight: 200,
             });
 
-            $('#ok').on('click', function() {
+            $('#ok').on('click', function () {
                 event.preventDefault();
                 var selectedOptions = [];
-                $('.checkbox-menu li input[type="checkbox"]:checked').each(function() {
+                $('.checkbox-menu li input[type="checkbox"]:checked').each(function () {
                     selectedOptions.push($(this).parent().text().trim());
                 });
                 if (selectedOptions.length > 0) {
@@ -455,28 +492,28 @@
                     $('#dropdownMenu1').html('Choose an interest <span class="caret"></span>');
                 }
             });
-            $('#viewProfileBtn').click(function() {
+            $('#viewProfileBtn').click(function () {
                 event.preventDefault();
                 $('.expanded-img').fadeIn();
             });
-            $('.expanded-img').click(function() {
+            $('.expanded-img').click(function () {
                 event.preventDefault();
                 $(this).fadeOut();
             });
-    
-            $('.previous').click(function() {
+
+            $('.previous').click(function () {
                 if (animating) return false;
                 animating = true;
-    
+
                 current_fs = $(this).parent();
                 previous_fs = $(this).parent().prev();
-    
+
                 $('#progressbar li').eq($('fieldset').index(current_fs)).removeClass('active');
-    
+
                 previous_fs.show();
-    
+
                 var step = 0;
-                var stepInterval = setInterval(function() {
+                var stepInterval = setInterval(function () {
                     if (step >= 100) {
                         clearInterval(stepInterval);
                         current_fs.hide();
@@ -526,7 +563,7 @@
 
                     var listItem = $('<div class="file-list-item"></div>').text(file.name + ' - ' + formatBytes(file.size));
                     fileList.append(listItem);
-                }               
+                }
             }
 
             function formatBytes(bytes, decimals = 2) {
@@ -538,6 +575,7 @@
                 return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
             }
         });
-    </script>        
+    </script>
 </body>
+
 </html>

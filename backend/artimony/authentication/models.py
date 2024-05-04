@@ -27,13 +27,14 @@ class CustomUser(AbstractUser):
     username = None
     email = models.EmailField(unique=True)
     mobile_number = models.CharField(max_length=15, unique=True)
+    admin_verified = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'mobile_number']
+    REQUIRED_FIELDS = ['mobile_number']
 
     def __str__(self):
         return self.email

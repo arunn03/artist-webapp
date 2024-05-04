@@ -1,27 +1,69 @@
-import logo from "./logo.svg";
+import Register from "./containers/Register";
+import Login from "./containers/Login";
+import Home from "./containers/Home";
+import ProfileSettings from "./containers/ProfileSettings";
+import ResetPassword from "./containers/ResetPassword";
+import ForgotPassword from "./containers/ForgotPassword";
+import ProtectedRoute from "./components/ProtectedRoute";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+
 import "./App.css";
 
-import RegisterForm from "./components/RegisterForm";
+function Logout() {
+  localStorage.clear();
+  return <Navigate to="/login" />;
+}
+
+function RegisterAndLogout() {
+  localStorage.clear();
+  return <Register />;
+}
 
 function App() {
+  const disableFeatures = (e) => {
+    e.preventDefault();
+  };
+
   return (
-    // <div className="App">
-    //   <header className="App-header">
-    //     <img src={logo} className="App-logo" alt="logo" />
-    //     <p>
-    //       Edit <code>src/App.js</code> and save to reload.
-    //     </p>
-    //     <a
-    //       className="App-link"
-    //       href="https://reactjs.org"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       Learn React
-    //     </a>
-    //   </header>
-    <RegisterForm></RegisterForm>
-    // {/* </div> */}
+    <Router>
+      <div
+        onContextMenu={disableFeatures}
+        onCopy={disableFeatures}
+        onCut={disableFeatures}
+        className="no-selection"
+      >
+        <Routes>
+          <Route
+            exact
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            exact
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfileSettings />
+              </ProtectedRoute>
+            }
+          />
+          <Route exact path="/register" element={<Register />} />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/logout" element={<Logout />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
+          <Route exact path="/forgot-password" element={<ForgotPassword />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
