@@ -199,7 +199,6 @@ fieldset.active {
     margin-bottom: 10px;
     width: 100%;
     box-sizing: border-box;
-    /* font-family: Montserrat; */
     color: #2C3E50;
     font-size: 13px;
 }
@@ -424,6 +423,7 @@ label img {
     border: 2px solid rgba(0, 0, 0, .2);
     border-radius: 5px;
     height: 40px;
+    outline: none;
 }
 
 .react-select {
@@ -440,4 +440,17 @@ label img {
     background: none;
     border: none;
     font-size: x-small;
+}
+
+
+.CardField {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+
+    font-size: 13px;
+    color: #2C3E50;
 }

@@ -1,0 +1,50 @@
+/* CustomCheckbox.css */
+.custom-checkbox {
+    /* display: flex;
+    align-items: center; */
+    display: inline-block;
+    position: absolute;
+    cursor: pointer;
+    margin: 0;
+    user-select: none;
+    left: -10px;
+    top: -10px;
+}
+
+.custom-checkbox input {
+    display: none;
+}
+
+.custom-checkbox .checkbox {
+    width: 30px;
+    height: 30px;
+    border: 2px solid #fcb603;
+    border-radius: 20px;
+    background-color: #fff;
+    display: inline-block;
+    position: relative;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.custom-checkbox input:checked+.checkbox {
+    background-color: #fcb603;
+    border-color: #fcb603;
+}
+
+.custom-checkbox .checkbox::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    width: 6px;
+    height: 12px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    opacity: 0;
+    transform: rotate(45deg);
+    transition: opacity 0.3s;
+}
+
+.custom-checkbox input:checked+.checkbox::after {
+    opacity: 1;
+}

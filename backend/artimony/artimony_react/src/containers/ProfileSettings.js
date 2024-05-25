@@ -1,9 +1,7 @@
 import "../styles/Register.css";
 import FileUploader from "../components/FileUploader";
 import SkinToneWheel from "../components/SkinToneWheel";
-import Popup from "../components/Popup";
-import client, { refreshToken } from "../api";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
+import client from "../api";
 
 import avatar from "../assets/img/dp.jpg";
 
@@ -12,7 +10,6 @@ import Select from "react-select";
 import "react-profile/themes/default";
 import { openEditor } from "react-profile";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
 
 const ProfileSettings = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -207,14 +204,14 @@ const ProfileSettings = () => {
               type="text"
               name="fname"
               placeholder="First Name"
-              value={profile.first_name}
+              defaultValue={profile.first_name}
               ref={fnameRef}
             />
             <input
               type="text"
               name="lname"
               placeholder="Last Name"
-              value={profile.last_name}
+              defaultValue={profile.last_name}
               ref={lnameRef}
             />
             <SkinToneWheel
@@ -252,7 +249,7 @@ const ProfileSettings = () => {
               name="city"
               placeholder="City"
               ref={cityRef}
-              value={profile.city}
+              defaultValue={profile.city}
             />
             <input
               type="button"

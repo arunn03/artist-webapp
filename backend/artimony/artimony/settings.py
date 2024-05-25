@@ -62,14 +62,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'authentication',
     'rest_framework',
     'rest_framework_simplejwt',
     'django_rest_passwordreset',
     'corsheaders',
+    'django_filters',
 
+    'authentication',
     'app',
+    # 'billing',
     
     'colorfield',
 ]
@@ -78,6 +79,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 30,
 }
 
 SIMPLE_JWT = {
@@ -180,3 +184,23 @@ AUTHENTICATION_BACKENDS = [
 
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
+
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
+
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'level': 'DEBUG',
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'loggers': {
+#         'django.db.backends': {
+#             'level': 'DEBUG',
+#             'handlers': ['console'],
+#         },
+#     },
+# }

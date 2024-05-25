@@ -1,12 +1,5 @@
-/* .profile-card-container {
-    width: 100%;
-    height: 100vh;
-    overflow: auto;
-    background: url('../assets/img/home-background2.png') center/cover no-repeat;
-    filter: url('#blur-filter');
-    position: relative;
+.verify-profiles-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
 }
-
-.profile-card-container * {
-    position: relative;
-} */

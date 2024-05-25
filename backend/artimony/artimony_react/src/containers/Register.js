@@ -36,6 +36,7 @@ const Register = () => {
   const cityRef = useRef();
   const bioRef = useRef();
   const profilePicRef = useRef();
+  const ageRef = useRef();
 
   const navigate = useNavigate();
 
@@ -280,6 +281,7 @@ const Register = () => {
       skin_tone: skinTone,
       gender: gender,
       city: cityRef.current.value,
+      age: ageRef.current.value,
     };
 
     // Appending text fields to FormData
@@ -409,6 +411,13 @@ const Register = () => {
             ref={lnameRef}
           />
           <SkinToneWheel setColor={setSkinTone} />
+          <input
+            type="number"
+            min="10"
+            name="age"
+            placeholder="Age"
+            ref={ageRef}
+          />
           <Select
             name="gender"
             options={genderOptions}

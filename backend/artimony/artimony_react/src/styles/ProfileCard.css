@@ -4,6 +4,7 @@
     /* border: 1px solid black; */
     border-radius: 10px;
     padding: 10px;
+    position: relative;
     /* box-shadow: 2px 5px 15px rgba(0, 0, 0, 0.9); */
     display: flex;
     /* margin: 10px; */
@@ -71,6 +72,17 @@
 .actor-card p {
     font-size: 15px;
     margin: 5px 0;
+}
+
+.actor-card .interests {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1;
+    font-size: x-small;
+    width: 150px;
+    color: rgb(106, 106, 106);
 }
 
 .map,
@@ -158,4 +170,9 @@
     justify-content: space-between;
     align-items: last baseline;
     width: 70%;
+}
+
+.actor-card-checkbox {
+    position: absolute;
+    z-index: 4;
 }

@@ -100,6 +100,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 // import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
+import CloseIcon from "@mui/icons-material/Close";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 // import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -114,21 +115,65 @@ const Search = styled("div")(({ theme }) => ({
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
-  width: "100%",
+  width: 400,
+  flexDirection: "column",
   [theme.breakpoints.up("sm")]: {
     marginLeft: theme.spacing(3),
-    width: "auto",
+    width: 400,
   },
 }));
+
+const Tag = styled("span")(({ theme }) => ({
+  margin: theme.spacing(0.5),
+  padding: "4px 15px",
+  borderRadius: "40px",
+  // backgroundColor: theme.palette.common.white,
+  // color: theme.palette.primary.main,
+  backgroundColor: theme.palette.primary.main,
+  color: theme.palette.common.white,
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  flexWrap: "nowrap",
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.primary.main, 0.8),
+    // color: theme.palette.common.white,
+    cursor: "pointer",
+  },
+}));
+
+const TagsContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexWrap: "nowrap",
+  paddingLeft: theme.spacing(4),
+  paddingBottom: theme.spacing(1),
+  marginTop: 20,
+  maxHeight: 48,
+  overflowX: "auto",
+  overflowY: "hidden",
+  "::-webkit-scrollbar": {
+    display: "none", // Hide the scrollbar
+  },
+}));
+
+function handleWheel(event) {
+  if (event.deltaY !== 0) {
+    // Prevent the default vertical scrolling
+    event.preventDefault();
+    // Scroll in the horizontal direction instead
+    event.currentTarget.scrollLeft += event.deltaY + event.deltaX;
+  }
+}
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 2),
   height: "100%",
   position: "absolute",
-  pointerEvents: "none",
+  cursor: "pointer",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+  zIndex: 1,
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -145,8 +190,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar({ tags, setTags, onSearch }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [inputValue, setInputValue] = React.useState("");
   //   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
@@ -205,6 +251,24 @@ export default function PrimarySearchAppBar() {
     </Menu>
   );
 
+  const handleKeyDown = (event) => {
+    if (event.key === " ") {
+      event.preventDefault();
+      addTag();
+    }
+  };
+
+  const addTag = () => {
+    if (inputValue.trim() !== "") {
+      setTags([inputValue.trim(), ...tags]);
+      setInputValue("");
+    }
+  };
+
+  const removeTag = (index) => {
+    setTags(tags.filter((_, i) => i !== index));
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ flexGrow: 1 }}>
@@ -228,7 +292,7 @@ export default function PrimarySearchAppBar() {
               ARTIMONY
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
-            <Search>
+            {/* <Search>
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
@@ -236,6 +300,22 @@ export default function PrimarySearchAppBar() {
                 placeholder="Search…"
                 inputProps={{ "aria-label": "search" }}
               />
+            </Search> */}
+            <Search>
+              <Box position="relative">
+                <SearchIconWrapper>
+                  <IconButton onClick={onSearch} style={{ padding: 0 }}>
+                    <SearchIcon />
+                  </IconButton>
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Add Filters..."
+                  inputProps={{ "aria-label": "search" }}
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                />
+              </Box>
             </Search>
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ display: "flex" }}>
@@ -283,6 +363,22 @@ export default function PrimarySearchAppBar() {
             </Box> */}
           </Toolbar>
         </AppBar>
+        {tags.length > 0 && (
+          <TagsContainer onWheel={handleWheel}>
+            {tags.map((tag, index) => (
+              <Tag key={index}>
+                {tag}
+                <IconButton
+                  size="small"
+                  onClick={() => removeTag(index)}
+                  style={{ marginLeft: 8, padding: 0 }}
+                >
+                  <CloseIcon fontSize="small" style={{ color: "white" }} />
+                </IconButton>
+              </Tag>
+            ))}
+          </TagsContainer>
+        )}
         {/* {renderMobileMenu} */}
         {renderMenu}
       </Box>

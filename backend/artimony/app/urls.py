@@ -8,4 +8,5 @@ urlpatterns = [
     path('profiles/', ProfileListAPIView.as_view(), name='profile-list'),
     path('current-profile/', ProfileDetailAPIView.as_view(), name='current-profile'),
     path('profile/update/<str:email>/', ProfileUpdateAPIView.as_view(), name='profile-update'),
+    path('admin-profiles/', AdminProfileListView.as_view(), name='admin-profile-list'),
 ]

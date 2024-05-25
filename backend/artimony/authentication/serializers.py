@@ -45,4 +45,9 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = 'email', 'mobile_number', 'admin_verified'
+        fields = 'email', 'mobile_number', 'admin_verified', 'is_staff'
+
+class EmailListSerializer(serializers.Serializer):
+    emails = serializers.ListField(
+        child=serializers.EmailField()
+    )

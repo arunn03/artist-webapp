@@ -4,14 +4,13 @@ from rest_framework import status
 from .models import *
 from .serializers import *
 from django.conf.global_settings import *
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import EmailMultiAlternatives
 from django.dispatch import receiver
 from django.template.loader import render_to_string
-from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created
-from django_rest_passwordreset.models import ResetPasswordToken
+from .filters import *
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.pagination import PageNumberPagination
 
 @receiver(reset_password_token_created)
 def password_reset_token_created(instance, reset_password_token, *args, **kwargs):
@@ -97,8 +96,19 @@ class ProfileCreateAPIView(generics.CreateAPIView):
     
 class ProfileListAPIView(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticated, )
-    queryset = Profile.objects.all().filter(user__admin_verified=True, interests__name="Actor")
+    queryset = Profile.objects.all().filter(user__admin_verified=True)
     serializer_class = ProfileListSerializer
+    filter_backends = [ DjangoFilterBackend ]
+    filterset_class = ProfileFilter
+    pagination_class = PageNumberPagination
+
+class AdminProfileListView(generics.ListAPIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser)
+    queryset = Profile.objects.all()
+    serializer_class = ProfileListSerializer
+    filter_backends = [ DjangoFilterBackend ]
+    filterset_class = ProfileFilter
+    pagination_class = PageNumberPagination
 
 # class ProfileEditAPIView(generics.UpdateAPIView):
 #     permission_classes = (permissions.IsAuthenticated, )

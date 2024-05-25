@@ -4,7 +4,10 @@ import Home from "./containers/Home";
 import ProfileSettings from "./containers/ProfileSettings";
 import ResetPassword from "./containers/ResetPassword";
 import ForgotPassword from "./containers/ForgotPassword";
+import Pricing from "./containers/Pricing";
 import ProtectedRoute from "./components/ProtectedRoute";
+import StripeProvider from "./StripeProvider";
+import BillingForm from "./containers/BillingForm";
 import {
   BrowserRouter as Router,
   Routes,
@@ -61,6 +64,16 @@ function App() {
           <Route exact path="/logout" element={<Logout />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route exact path="/forgot-password" element={<ForgotPassword />} />
+          <Route exact path="/pricing" element={<Pricing />} />
+          <Route
+            exact
+            path="/payment"
+            element={
+              <StripeProvider>
+                <BillingForm />
+              </StripeProvider>
+            }
+          />
         </Routes>
       </div>
     </Router>

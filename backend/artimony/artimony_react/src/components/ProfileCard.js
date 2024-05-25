@@ -1,5 +1,6 @@
 import "../styles/ProfileCard.css";
 import maleImg from "../assets/img/male.png";
+import femaleImg from "../assets/img/female.png";
 // import femaleImg from "../assets/img/female.png";
 import locationImg from "../assets/img/location.png";
 import lockImg from "../assets/img/lock.png";
@@ -9,7 +10,7 @@ import Carousel from "./Carousel";
 
 import { useRef, useEffect, useState } from "react";
 
-const ProfileCard = ({ profile }) => {
+const ProfileCard = ({ profile, user, children }) => {
   const [showCarousel, setShowCarousel] = useState(false);
 
   const skinToneRef = useRef();
@@ -19,17 +20,25 @@ const ProfileCard = ({ profile }) => {
     skinToneRef.current.style.backgroundColor = profile.skin_tone;
   });
 
+  var interests = "";
+  for (var interest of profile.interests) {
+    interests += interest.name + ", ";
+  }
+
+  interests = interests.slice(0, interests.length - 2);
+
   return (
     <>
       <div className="actor-card shadow mx-auto mx-md-0">
+        {children}
         <div className="text-center p-2 left">
           <div id="dp" onClick={() => setShowCarousel(true)}>
             <img src={profile.profile_picture} />
           </div>
           <img
             className="gender mt-3"
-            src={maleImg}
-            //   src={profile.gender == "male" ? maleImg : femaleImg}
+            // src={maleImg}
+            src={profile.gender == "male" ? maleImg : femaleImg}
             alt={profile.gender}
           />
           <div id="city">
@@ -41,37 +50,62 @@ const ProfileCard = ({ profile }) => {
         </div>
         <div className="p-2 pt-4 middle">
           <h2 className="fs-title d-inline mr-2">{`${profile.first_name} ${profile.last_name}`}</h2>
-          <h3 className="fs-subtitle d-inline">30 Years</h3>
-          <div className="mb-3"></div>
+          <h3 className="fs-subtitle d-inline">{`${profile.age} Years`}</h3>
+          {/* <div className="mb-3"></div> */}
+          <p className="m-0 mb-2 interests">{interests}</p>
           <p>
-            <abbr id="blur" className="prevent-select tooltip">
-              {profile.email}
-              <span className="tooltiptext">
-                <button>
-                  <img id="lock" src={lockImg} alt="" /> Premium
-                </button>
-              </span>
-            </abbr>
+            {user.is_staff ? (
+              profile.email
+            ) : (
+              <abbr id="blur" className="prevent-select tooltip">
+                {profile.email}
+                <span className="tooltiptext">
+                  <button>
+                    <img id="lock" src={lockImg} alt="" /> Premium
+                  </button>
+                </span>
+              </abbr>
+            )}
           </p>
           <p>
-            <abbr id="blur" className="prevent-select tooltip">
-              {profile.mobile_number}
-              <span className="tooltiptext">
-                <button>
-                  <img id="lock" src={lockImg} alt="" /> Premium
-                </button>
-              </span>
-            </abbr>
+            {user.is_staff ? (
+              profile.mobile_number
+            ) : (
+              <abbr id="blur" className="prevent-select tooltip">
+                {profile.mobile_number}
+                <span className="tooltiptext">
+                  <button>
+                    <img id="lock" src={lockImg} alt="" /> Premium
+                  </button>
+                </span>
+              </abbr>
+            )}
           </p>
           <div className="mb-3"></div>
-          <div className="skin-tone" ref={skinToneRef}></div>
+          <div className="skin-tone d-inline-block" ref={skinToneRef}></div>
+          {/* <span>
+            <img class="map" src={heightImg} alt="Location" /> 180 cms
+          </span> */}
         </div>
       </div>
       {showCarousel && profile.gallery.length > 0 && (
         <Carousel closable={true} onClose={() => setShowCarousel(false)}>
           {profile.gallery.map((file, index) => (
             <div key={index}>
-              <img className="carousel-file" src={file.file} />
+              {file.is_video ? (
+                <video
+                  className="carousel-file video-no-controls video-hover-controls"
+                  src={file.file}
+                  onMouseEnter={(e) => (e.target.controls = true)}
+                  onMouseLeave={(e) => (e.target.controls = false)}
+                  // preload="none"
+                  controlsList="nodownload"
+                >
+                  Your browser does not support the video tag.
+                </video>
+              ) : (
+                <img className="carousel-file" src={file.file} />
+              )}
             </div>
           ))}
         </Carousel>
