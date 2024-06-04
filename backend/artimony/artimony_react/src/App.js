@@ -8,6 +8,10 @@ import Pricing from "./containers/Pricing";
 import ProtectedRoute from "./components/ProtectedRoute";
 import StripeProvider from "./StripeProvider";
 import BillingForm from "./containers/BillingForm";
+import PrivacyPolicy from "./legal/PrivacyPolicy";
+import TermsOfUse from "./legal/TermsOfUse";
+import CustomerSupport from "./legal/CustomerSupport";
+import RefundPolicy from "./legal/RefundPolicy";
 import {
   BrowserRouter as Router,
   Routes,
@@ -74,6 +78,10 @@ function App() {
               </StripeProvider>
             }
           />
+          <Route exact path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route exact path="/terms-of-use" element={<TermsOfUse />} />
+          <Route exact path="/refund-policy" element={<RefundPolicy />} />
+          <Route exact path="/customer-support" element={<CustomerSupport />} />
         </Routes>
       </div>
     </Router>

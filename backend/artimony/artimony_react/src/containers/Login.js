@@ -9,6 +9,7 @@ import "../styles/Register.css";
 
 const Login = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [errors, setErrors] = useState(null);
 
   const passRef = useRef();
   const emailRef = useRef();
@@ -48,6 +49,7 @@ const Login = () => {
       }
     } catch (err) {
       console.error("Error:", err);
+      setErrors(err.response.data);
     }
   };
 
@@ -57,22 +59,52 @@ const Login = () => {
         <fieldset className="active">
           <h2 className="fs-title">Login</h2>
           <h3 className="fs-subtitle">Enter your credentials</h3>
+          {errors &&
+            errors.email &&
+            errors.email.map((error) => (
+              <p
+                className="text-danger m-0 text-left"
+                style={{ fontSize: "10px" }}
+              >
+                {error}
+              </p>
+            ))}
           <input type="text" name="email" placeholder="Email" ref={emailRef} />
+          {errors &&
+            errors.password &&
+            errors.password.map((error) => (
+              <p
+                className="text-danger m-0 text-left"
+                style={{ fontSize: "10px" }}
+              >
+                {error}
+              </p>
+            ))}
           <input
             type="password"
             name="password"
             placeholder="Password"
             ref={passRef}
           />
+          {errors && errors.detail && (
+            <p
+              className="text-danger m-0 text-left"
+              style={{ fontSize: "10px" }}
+            >
+              {errors.detail}
+            </p>
+          )}
           <input
-            type="button"
+            // type="button"
+            type="submit"
             name="login"
             className="action-button"
             value="Login"
-            onClick={handleLoginClick}
+            // onClick={handleLoginClick}
           />
           <button
             className="resend-link mb-3"
+            type="button"
             onClick={() => navigate("/forgot-password")}
           >
             Forgot password?
@@ -82,10 +114,29 @@ const Login = () => {
             Don't have an account?
             <button
               className="resend-link"
+              type="button"
               onClick={() => navigate("/register")}
             >
               Sign Up
             </button>
+          </h3>
+          <h3
+            className="fs-subtitle mt-3 mb-0"
+            style={{ fontSize: "10px", lineHeight: 2 }}
+          >
+            <a className="mr-2" href="/privacy-policy">
+              Privacy Policy
+            </a>
+            <a className="mr-2" href="/terms-of-use">
+              Terms Of Use
+            </a>
+            <br />
+            <a className="mr-2" href="/refund-policy">
+              Refund Policy
+            </a>
+            <a className="mr-2" href="/customer-support">
+              Customer Support
+            </a>
           </h3>
         </fieldset>
       </form>

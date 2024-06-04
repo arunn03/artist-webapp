@@ -27,6 +27,19 @@ const ProfileCard = ({ profile, user, children }) => {
 
   interests = interests.slice(0, interests.length - 2);
 
+  var email = profile.email[0];
+  var mobile_number = profile.mobile_number.slice(0, 3) + "xxxxxxx";
+
+  if (!user.is_staff) {
+    for (var i = 1; i < profile.email.length; i++) {
+      if (profile.email[i] == "@") {
+        email += profile.email.slice(i);
+        break;
+      }
+      email += "x";
+    }
+  }
+
   return (
     <>
       <div className="actor-card shadow mx-auto mx-md-0">
@@ -55,10 +68,10 @@ const ProfileCard = ({ profile, user, children }) => {
           <p className="m-0 mb-2 interests">{interests}</p>
           <p>
             {user.is_staff ? (
-              profile.email
+              <abbr className="prevent-select tooltip">{profile.email}</abbr>
             ) : (
               <abbr id="blur" className="prevent-select tooltip">
-                {profile.email}
+                {email}
                 <span className="tooltiptext">
                   <button>
                     <img id="lock" src={lockImg} alt="" /> Premium
@@ -72,7 +85,7 @@ const ProfileCard = ({ profile, user, children }) => {
               profile.mobile_number
             ) : (
               <abbr id="blur" className="prevent-select tooltip">
-                {profile.mobile_number}
+                {mobile_number}
                 <span className="tooltiptext">
                   <button>
                     <img id="lock" src={lockImg} alt="" /> Premium

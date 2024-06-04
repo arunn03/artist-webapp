@@ -24,7 +24,8 @@ TEMPLATES_DIR = BASE_DIR / 'templates'
 # Environment Variables
 load_dotenv()
 TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
-TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
+TWILIO_API_KEY = os.environ.get('TWILIO_API_KEY')
+TWILIO_API_SECRET = os.environ.get('TWILIO_API_SECRET')
 TWILIO_PHONE_NUMBER = os.environ.get('TWILIO_PHONE_NUMBER')
 
 EMAIL_HOST = os.environ.get('EMAIL_HOST')
@@ -80,6 +81,10 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
+
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 30,
 }
@@ -105,7 +110,7 @@ ROOT_URLCONF = 'artimony.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [ TEMPLATES_DIR, ],
+        'DIRS': [ TEMPLATES_DIR, BASE_DIR / 'react'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -169,6 +174,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# STATIC_ROOT = BASE_DIR / 'react/static'
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'react/static',
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

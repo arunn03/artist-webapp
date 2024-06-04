@@ -251,9 +251,11 @@ export default function PrimarySearchAppBar({ tags, setTags, onSearch }) {
     </Menu>
   );
 
-  const handleKeyDown = (event) => {
-    if (event.key === " ") {
-      event.preventDefault();
+  const handleKeyDown = (e) => {
+    const value = e.target.value;
+    setInputValue((prevVal) => value);
+    if (value[value.length - 1] === " ") {
+      // event.preventDefault();
       addTag();
     }
   };
@@ -287,9 +289,9 @@ export default function PrimarySearchAppBar({ tags, setTags, onSearch }) {
               variant="h6"
               noWrap
               component="div"
-              sx={{ display: { xs: "none", sm: "block" } }}
+              sx={{ display: { xs: "none", sm: "block" }, color: "white" }}
             >
-              ARTIMONY
+              CINEMA THOOTHU
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
             {/* <Search>
@@ -312,8 +314,8 @@ export default function PrimarySearchAppBar({ tags, setTags, onSearch }) {
                   placeholder="Add Filters..."
                   inputProps={{ "aria-label": "search" }}
                   value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onKeyDown={handleKeyDown}
+                  onChange={handleKeyDown}
+                  // onKeyDown={handleKeyDown}
                 />
               </Box>
             </Search>
@@ -345,6 +347,7 @@ export default function PrimarySearchAppBar({ tags, setTags, onSearch }) {
                 aria-haspopup="true"
                 onClick={handleProfileMenuOpen}
                 color="inherit"
+                sx={{ color: "white" }}
               >
                 <AccountCircle />
               </IconButton>

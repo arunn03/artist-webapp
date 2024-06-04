@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import *
 from .serializers import *
+from django.shortcuts import render
 from django.conf.global_settings import *
 from django.core.mail import EmailMultiAlternatives
 from django.dispatch import receiver
@@ -11,6 +12,9 @@ from django_rest_passwordreset.signals import reset_password_token_created
 from .filters import *
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.pagination import PageNumberPagination
+
+def index(request):
+    return render(request, 'index.html')
 
 @receiver(reset_password_token_created)
 def password_reset_token_created(instance, reset_password_token, *args, **kwargs):

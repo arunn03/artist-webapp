@@ -69,7 +69,8 @@ class MobileOTPGenerationAPIView(APIView):
     def post(self, request):
         mobile_number = request.data.get('mobile_number')
         otp = str(randint(100000, 999999))
-        client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+        print(TWILIO_API_KEY, TWILIO_API_SECRET, TWILIO_ACCOUNT_SID)
+        client = Client(TWILIO_API_KEY, TWILIO_API_SECRET, TWILIO_ACCOUNT_SID)
         body = f'Your mobile OTP is {otp}\n\nThis OTP will be expired in 10 minutes from now.'
         msg = client.messages.create(
             body=body,

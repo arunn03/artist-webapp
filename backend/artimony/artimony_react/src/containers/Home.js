@@ -24,10 +24,12 @@ const Home = () => {
   useEffect(() => {
     client.post("/auth/user/").then((r) => {
       var url = "/profiles/";
+      console.log(r.data);
       if (r.data.user.is_staff) {
         url = "/admin-profiles/";
       }
       client.get(url).then((res) => {
+        console.log(res.data);
         setResponse((prevResponse) => {
           setSelectedProfiles(
             res.data.results
