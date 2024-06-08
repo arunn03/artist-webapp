@@ -56,7 +56,7 @@ const Register = () => {
   }, []);
 
   if (isAuthenticated) {
-    return navigate("/");
+    return navigate("/platform");
   }
 
   const interests = [
@@ -314,7 +314,7 @@ const Register = () => {
       });
       if (response.status === 201) {
         console.log("Profile created successfully");
-        navigate("/");
+        navigate("/platform");
       } else {
         console.log(response.data);
       }
@@ -390,7 +390,10 @@ const Register = () => {
           />
           <h3 className="fs-subtitle m-0">
             Already have an account?
-            <button className="resend-link" onClick={() => navigate("/login")}>
+            <button
+              className="resend-link"
+              onClick={() => navigate("/platform/login")}
+            >
               Login
             </button>
           </h3>

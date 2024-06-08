@@ -48,7 +48,7 @@ const ProtectedRoute = ({ children }) => {
 
   if (isAuthorized == null) return <div>Loading...</div>;
 
-  return isAuthorized ? children : <Navigate to="/login" />;
+  return isAuthorized ? children : <Navigate to="/platform/login" />;
 };
 
 export default ProtectedRoute;

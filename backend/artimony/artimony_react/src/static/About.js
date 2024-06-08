@@ -1,5 +1,8 @@
 import "./About.css";
 
+import talentShowCaseImg from "../assets/img/talent-showcase.jpg";
+import aboutImg from "../assets/img/about.jpg";
+
 const About = () => {
   return (
     <div className="bg-white position-relative">
@@ -61,11 +64,7 @@ const About = () => {
         <div className="container pt-5">
           <div className="row align-items-center">
             <div className="col-lg-6">
-              <img
-                className="img-fluid mb-4 mb-lg-0"
-                src="img/about.jpg"
-                alt=""
-              />
+              <img className="img-fluid mb-4 mb-lg-0" src={aboutImg} alt="" />
             </div>
             <div className="col-lg-6">
               <h1 className="display-4 text-uppercase mb-4">ABOUT US</h1>
@@ -137,7 +136,7 @@ const About = () => {
             <div className="col-lg-6 order-lg-2">
               <img
                 className="img-fluid mb-4 mb-lg-0"
-                src="img/talent-showcase.jpg"
+                src={talentShowCaseImg}
                 alt="Talent Showcase"
               />
             </div>

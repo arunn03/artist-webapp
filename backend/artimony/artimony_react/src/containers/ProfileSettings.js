@@ -183,7 +183,7 @@ const ProfileSettings = () => {
       );
       if (response.status === 200) {
         console.log("Profile updated successfully");
-        navigate("/");
+        navigate("/platform");
       } else {
         console.log(response.data);
       }

@@ -249,8 +249,8 @@ export default function PrimarySearchAppBar({ tags, setTags, onSearch }) {
       onClose={handleMenuClose}
       sx={{ "& .MuiMenu-paper": { width: 200, marginTop: 5 } }}
     >
-      <MenuItem onClick={() => navigate("/profile")}>Profile</MenuItem>
-      <MenuItem onClick={() => navigate("/logout")}>Logout</MenuItem>
+      <MenuItem onClick={() => navigate("/platform/profile")}>Profile</MenuItem>
+      <MenuItem onClick={() => navigate("/platform/logout")}>Logout</MenuItem>
     </Menu>
   );
 

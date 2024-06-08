@@ -32,7 +32,7 @@ const Login = () => {
   }, []);
 
   if (isAuthenticated) {
-    return navigate("/");
+    return navigate("/platform");
   }
 
   const handleLoginClick = async (e) => {
@@ -45,7 +45,7 @@ const Login = () => {
       if (res.status === 200) {
         localStorage.setItem(ACCESS_TOKEN, res.data.access);
         localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
-        navigate("/");
+        navigate("/platform");
       }
     } catch (err) {
       console.error("Error:", err);
@@ -105,7 +105,7 @@ const Login = () => {
           <button
             className="resend-link mb-3"
             type="button"
-            onClick={() => navigate("/forgot-password")}
+            onClick={() => navigate("/platform/forgot-password")}
           >
             Forgot password?
           </button>
@@ -115,7 +115,7 @@ const Login = () => {
             <button
               className="resend-link"
               type="button"
-              onClick={() => navigate("/register")}
+              onClick={() => navigate("/platform/register")}
             >
               Sign Up
             </button>

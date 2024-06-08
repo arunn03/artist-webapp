@@ -1,5 +1,8 @@
 import "./Home.css";
 
+import headerImg from "../assets/img/header.png";
+import aboutImg from "../assets/img/about.jpg";
+
 const StaticHome = () => {
   return (
     <div className="bg-white position-relative">
@@ -54,11 +57,7 @@ const StaticHome = () => {
             <button className="attractive-button">Login</button>
           </div>
           <div className="col-lg-6 px-0 text-right">
-            <img
-              className="img-fluid mt-5 mt-lg-0"
-              src="img/header.png"
-              alt=""
-            />
+            <img className="img-fluid mt-5 mt-lg-0" src={headerImg} alt="" />
           </div>
         </div>
       </div>
@@ -67,11 +66,7 @@ const StaticHome = () => {
         <div className="container py-5">
           <div className="row align-items-center">
             <div className="col-lg-6">
-              <img
-                className="img-fluid mb-4 mb-lg-0"
-                src="img/about.jpg"
-                alt=""
-              />
+              <img className="img-fluid mb-4 mb-lg-0" src={aboutImg} alt="" />
             </div>
             <div className="col-lg-6">
               <h1 className="display-4 text-uppercase mb-4">ABOUT US</h1>

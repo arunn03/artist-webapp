@@ -17,7 +17,7 @@ const ResetPassword = () => {
   console.log(token);
 
   if (!token) {
-    return <Navigate exact to="/" />;
+    return <Navigate exact to="/platform" />;
   }
 
   const handleResetClick = async (e) => {
@@ -31,7 +31,7 @@ const ResetPassword = () => {
       });
       if (res.status === 200) {
         localStorage.clear();
-        navigate("/");
+        navigate("/platform");
       }
     } catch (err) {
       console.error("Error:", err);
