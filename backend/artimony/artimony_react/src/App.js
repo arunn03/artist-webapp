@@ -1,10 +1,15 @@
 import Register from "./containers/Register";
 import Login from "./containers/Login";
 import Home from "./containers/Home";
+import StaticHome from "./static/Home";
+import About from "./static/About";
+import Services from "./static/Services";
+import Contact from "./static/Contact";
+import Pricing from "./static/Pricing";
 import ProfileSettings from "./containers/ProfileSettings";
 import ResetPassword from "./containers/ResetPassword";
 import ForgotPassword from "./containers/ForgotPassword";
-import Pricing from "./containers/Pricing";
+// import Pricing from "./containers/Pricing";
 import ProtectedRoute from "./components/ProtectedRoute";
 import StripeProvider from "./StripeProvider";
 import BillingForm from "./containers/BillingForm";
@@ -47,7 +52,7 @@ function App() {
         <Routes>
           <Route
             exact
-            path="/"
+            path="/platform"
             element={
               <ProtectedRoute>
                 <Home />
@@ -56,22 +61,30 @@ function App() {
           />
           <Route
             exact
-            path="/profile"
+            path="/platform/profile"
             element={
               <ProtectedRoute>
                 <ProfileSettings />
               </ProtectedRoute>
             }
           />
-          <Route exact path="/register" element={<Register />} />
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/logout" element={<Logout />} />
-          <Route path="/reset-password/:token" element={<ResetPassword />} />
-          <Route exact path="/forgot-password" element={<ForgotPassword />} />
-          <Route exact path="/pricing" element={<Pricing />} />
+          <Route exact path="/platform/register" element={<Register />} />
+          <Route exact path="/platform/login" element={<Login />} />
+          <Route exact path="/platform/logout" element={<Logout />} />
           <Route
             exact
-            path="/payment"
+            path="/platform/reset-password/:token"
+            element={<ResetPassword />}
+          />
+          <Route
+            exact
+            path="/platform/forgot-password"
+            element={<ForgotPassword />}
+          />
+          {/* <Route exact path="/pricing" element={<Pricing />} /> */}
+          <Route
+            exact
+            path="/platform/payment"
             element={
               <StripeProvider>
                 <BillingForm />
@@ -82,6 +95,12 @@ function App() {
           <Route exact path="/terms-of-use" element={<TermsOfUse />} />
           <Route exact path="/refund-policy" element={<RefundPolicy />} />
           <Route exact path="/customer-support" element={<CustomerSupport />} />
+
+          <Route exact path="/" element={<StaticHome />} />
+          <Route exact path="/about" element={<About />} />
+          <Route exact path="/services" element={<Services />} />
+          <Route exact path="/contact" element={<Contact />} />
+          <Route exact path="/pricing" element={<Pricing />} />
         </Routes>
       </div>
     </Router>

@@ -209,6 +209,9 @@ export default function PrimarySearchAppBar({ tags, setTags, onSearch }) {
         main: "#ff4081", // Change secondary color
       },
     },
+    typography: {
+      fontFamily: "Oswald",
+    },
   });
 
   const handleProfileMenuOpen = (event) => {
@@ -291,7 +294,7 @@ export default function PrimarySearchAppBar({ tags, setTags, onSearch }) {
               component="div"
               sx={{ display: { xs: "none", sm: "block" }, color: "white" }}
             >
-              CINEMA THOOTHU
+              CINEMATHOOTHU
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
             {/* <Search>
