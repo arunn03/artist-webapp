@@ -43,6 +43,7 @@ class Profile(models.Model):
     city = models.CharField(max_length=100)
     gender = models.CharField(max_length=10, choices=[('male', 'Male'), ('female', 'Female'), ('other', 'Other')])
     interests = models.ManyToManyField(Interest, blank=True)
+    revealed_count = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.user.email

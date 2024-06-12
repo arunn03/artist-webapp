@@ -46,7 +46,7 @@ SECRET_KEY = 'django-insecure-w+n-2y2_ug&)ls#r6r1whrlh!-ym!%72fvj6wxmln&tdp=*=qw
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['c39b-2405-201-e007-190-8c6b-7af6-442f-2869.ngrok-free.app', 'localhost']
 
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -71,7 +71,7 @@ INSTALLED_APPS = [
 
     'authentication',
     'app',
-    # 'billing',
+    'billing',
     
     'colorfield',
 ]
@@ -81,9 +81,9 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 
-    'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework.renderers.JSONRenderer',
-    ),
+    # 'DEFAULT_RENDERER_CLASSES': (
+    #     'rest_framework.renderers.JSONRenderer',
+    # ),
 
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 30,
@@ -196,8 +196,11 @@ AUTHENTICATION_BACKENDS = [
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 
-STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
+# STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
 
+RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID')
+RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET')
+RAZORPAY_PLAN_ID = os.environ.get('RAZORPAY_PLAN_ID')
 
 # LOGGING = {
 #     'version': 1,

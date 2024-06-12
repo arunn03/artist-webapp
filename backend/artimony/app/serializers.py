@@ -48,9 +48,12 @@ class ProfileListSerializer(serializers.ModelSerializer):
     gallery = GalleryItemSerializer(many=True, read_only=True)
     interests = InterestSerializer(many=True, read_only=True)
 
+    plan = serializers.CharField(source='user.billingprofile.plan')
+    subscription_status = serializers.CharField(source='user.billingprofile.subscription_status')
+
     class Meta:
         model = Profile
-        fields = ['first_name', 'last_name', 'profile_picture', 'email', 'mobile_number', 'city', 'age', 'gender', 'skin_tone', 'gallery', 'interests', 'admin_verified']
+        fields = ['first_name', 'last_name', 'profile_picture', 'email', 'mobile_number', 'city', 'age', 'gender', 'skin_tone', 'gallery', 'interests', 'admin_verified', 'revealed_count', 'plan', 'subscription_status', 'bio']
 
 class ProfileSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(source='user.first_name', read_only=True)
@@ -64,13 +67,3 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ['first_name', 'last_name', 'profile_picture', 'email', 'mobile_number', 'city', 'age', 'gender', 'skin_tone', 'gallery', 'interests', 'bio']
 
-# class ProfileEditSerializer(serializers.ModelSerializer):
-#     first_name = serializers.CharField(source='user.first_name', read_only=True)
-#     last_name = serializers.CharField(source='user.last_name', read_only=True)
-#     email = serializers.EmailField(source='user.email', read_only=True)
-#     mobile_number = serializers.CharField(source='user.mobile_number', read_only=True)
-#     gallery = GalleryItemSerializer(many=True, read_only=True)
-
-#     class Meta:
-#         model = Profile
-#         fields = ['first_name', 'last_name', 'profile_picture', 'email', 'mobile_number', 'city', 'gender', 'skin_tone', 'gallery']

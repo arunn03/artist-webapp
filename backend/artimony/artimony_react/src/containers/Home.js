@@ -46,6 +46,8 @@ const Home = () => {
     });
   }, []);
 
+  console.log(response.profiles);
+
   const handleApplyFilters = (selectedFilters) => {
     setAppliedFilters(selectedFilters);
   };

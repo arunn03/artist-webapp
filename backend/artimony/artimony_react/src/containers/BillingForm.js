@@ -1,16 +1,17 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import client, { refreshToken } from "../api";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-
-import client, { refreshToken } from "../api";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
+import { ACCESS_TOKEN } from "../constants"; // Adjust import path as needed
+import Select from "react-select";
+// import { useRazorpay } from "react-razorpay";
 
 import "../styles/Register.css"; // Adjust path as needed
 
 const BillingForm = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [email, setEmail] = useState("");
+  const [user, setUser] = useState(null);
+  const [plan, setPlan] = useState(null);
   const [address, setAddress] = useState({
     line1: "",
     line2: "",
@@ -22,14 +23,11 @@ const BillingForm = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const stripe = useStripe();
-  const elements = useElements();
-  const emailRef = useRef();
-
   const navigate = useNavigate();
+  // const Razorpay = useRazorpay();
 
   useEffect(() => {
-    var token = localStorage.getItem(ACCESS_TOKEN);
+    let token = localStorage.getItem(ACCESS_TOKEN);
     if (token) {
       const decoded = jwtDecode(token);
       const expirationTime = decoded.exp;
@@ -40,117 +38,150 @@ const BillingForm = () => {
         token = localStorage.getItem(ACCESS_TOKEN);
       }
       setIsAuthenticated(true);
+      client.post("/auth/user/").then((r) => {
+        setUser(r.data.user);
+      });
+    } else {
+      navigate("/platform/login");
     }
   }, []);
 
   if (!isAuthenticated) {
-    return navigate("/login");
+    navigate("/platform/login");
   }
 
   const handleAddressChange = (e) => {
     setAddress({ ...address, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setLoading(true);
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => {
+        resolve(true);
+      };
+      script.onerror = () => {
+        resolve(false);
+      };
+      document.body.appendChild(script);
+    });
+  };
 
-    if (!stripe || !elements) {
-      return;
-    }
-
-    const cardElement = elements.getElement(CardElement);
-
+  const handlePaymentSuccess = async () => {
     try {
-      const { error, paymentMethod } = await stripe.createPaymentMethod({
-        type: "card",
-        card: cardElement,
-        billing_details: {
-          email,
-          address,
-        },
-      });
+      setLoading(true);
 
-      if (error) {
-        setError(error.message);
+      const scriptLoaded = await loadRazorpayScript();
+
+      if (!scriptLoaded) {
+        setError("Failed to load Razorpay script");
         setLoading(false);
         return;
       }
-
+      // Send card token and other information to backend
       const response = await client.post("/billing/create-subscription/", {
-        email,
-        paymentMethodId: paymentMethod.id,
-        address,
+        name: user.first_name + " " + user.last_name,
+        email: user.email,
+        contact: "+91" + user.mobile_number,
+        address: address,
+        plan: plan.name,
       });
 
-      console.log(response);
-
-      const subscription = await response.data;
-
-      if (subscription.error) {
-        setError(subscription.error.message);
-        setLoading(false);
-        return;
+      // console.log(response.data);
+      if (response.status === 201) {
+        var options = {
+          key: process.env.REACT_APP_RAZORPAY_KEY_ID,
+          subscription_id: response.data.id,
+          name: "CinemaThoothu Premium",
+          description: "Authentication for Recurring Payments",
+          handler: function (response) {
+            navigate("/platform");
+          },
+        };
+        var rzp1 = new window.Razorpay(options);
+        rzp1.open();
       }
-
-      if (subscription.status === "incomplete") {
-        const { error: confirmError } = await stripe.confirmCardPayment(
-          subscription.client_secret
-        );
-        console.log("required action");
-
-        if (confirmError) {
-          setError(confirmError.message);
-          setLoading(false);
-          return;
-        }
-        console.log("successful");
-
-        // alert("Subscription successful!");
-        // navigate("/");
-      } else {
-        // alert("Subscription successful!");
-        // navigate("/");
-      }
+      setLoading(false);
     } catch (error) {
       setError(error.message);
+      setLoading(false);
     }
+  };
 
+  const handleError = (error) => {
+    setError(error.description);
     setLoading(false);
   };
 
-  const cardElementOptions = {
-    style: {
-      base: {
-        color: "#2C3E50",
-        fontSize: "13px",
-        "::placeholder": {
-          color: "#aab7c4",
-        },
-        ":focus": {
-          color: "#424770",
-        },
-      },
-      invalid: {
-        color: "#fa755a",
-        iconColor: "#fa755a",
-      },
-    },
+  const openRazorpayCheckout = async () => {
+    // const options = {
+    //   key: "rzp_test_mle0ILLcwrgpqs", // Replace with your Razorpay key ID
+    //   amount: 100, // Amount in smallest currency unit (like paise for INR)
+    //   currency: "INR",
+    //   name: "Arunkumar S",
+    //   description: "Test Subscription",
+    //   prefill: {
+    //     email,
+    //     contact,
+    //   },
+    //   notes: {
+    //     address: `${address.line1}, ${address.line2}, ${address.city}, ${address.state}, ${address.postal_code}, ${address.country}`,
+    //   },
+    //   theme: {
+    //     color: "#3399cc",
+    //   },
+    //   handler: handlePaymentSuccess,
+    // };
+
+    // const rzp = new Razorpay(options);
+    // rzp.open();
+    await handlePaymentSuccess();
   };
+
+  const planList = [
+    { name: "plan_OKY2KAyIniksj7", label: "Silver" },
+    { name: "plan_OKY2n03khLtGXm", label: "Gold" },
+    { name: "plan_OKY3XCRSbnODw7", label: "Platinum" },
+  ];
+
+  const planInputStyles = {
+    valueContainer: (provided) => ({
+      ...provided,
+      maxHeight: "41px",
+      textAlign: "left",
+      fontSize: "13px",
+      paddingLeft: "15px",
+      paddingRight: "15px",
+    }),
+    control: (styles) => ({ ...styles, width: "100%" }),
+    menu: (styles) => ({ ...styles, textAlign: "left" }),
+  };
+
+  console.log(plan);
 
   return (
     <div className="register-container">
-      <form id="msform" onSubmit={handleSubmit}>
+      <form id="msform">
         <fieldset className="active">
           <h2 className="fs-title">Billing Details</h2>
           <h3 className="fs-subtitle">Enter your payment information</h3>
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            ref={emailRef}
+          {error && (
+            <p
+              className="text-danger m-0 text-left"
+              style={{ fontSize: "10px" }}
+            >
+              {error}
+            </p>
+          )}
+          <Select
+            name="plan"
+            options={planList}
+            className="react-select"
+            styles={planInputStyles}
+            classNamePrefix="select"
+            placeholder="Select Plan"
+            onChange={(selectedPlan) => setPlan(selectedPlan)}
             required
           />
           <input
@@ -200,17 +231,14 @@ const BillingForm = () => {
             onChange={handleAddressChange}
             required
           />
-          <div className="stripe-element">
-            <CardElement options={cardElementOptions} />
-          </div>
           <button
-            type="submit"
-            disabled={!stripe || loading}
+            type="button"
+            onClick={openRazorpayCheckout}
+            disabled={loading}
             className="action-button"
           >
             {loading ? "Processing…" : "Subscribe"}
           </button>
-          {error && <div>{error}</div>}
         </fieldset>
       </form>
     </div>

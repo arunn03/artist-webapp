@@ -13,6 +13,8 @@ import ForgotPassword from "./containers/ForgotPassword";
 import ProtectedRoute from "./components/ProtectedRoute";
 import StripeProvider from "./StripeProvider";
 import BillingForm from "./containers/BillingForm";
+import CancelSubscription from "./containers/CancelSubscription";
+import UpdateSubscription from "./containers/UpdateSubscription";
 import PrivacyPolicy from "./legal/PrivacyPolicy";
 import TermsOfUse from "./legal/TermsOfUse";
 import CustomerSupport from "./legal/CustomerSupport";
@@ -74,21 +76,47 @@ function App() {
           <Route
             exact
             path="/platform/reset-password/:token"
-            element={<ResetPassword />}
+            element={
+              <ProtectedRoute>
+                <ResetPassword />
+              </ProtectedRoute>
+            }
           />
           <Route
             exact
             path="/platform/forgot-password"
-            element={<ForgotPassword />}
+            element={
+              <ProtectedRoute>
+                <ForgotPassword />
+              </ProtectedRoute>
+            }
           />
           {/* <Route exact path="/pricing" element={<Pricing />} /> */}
           <Route
             exact
             path="/platform/payment"
             element={
-              <StripeProvider>
+              <ProtectedRoute>
                 <BillingForm />
-              </StripeProvider>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            exact
+            path="/platform/payment/cancel"
+            element={
+              <ProtectedRoute>
+                <CancelSubscription />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            exact
+            path="/platform/payment/update"
+            element={
+              <ProtectedRoute>
+                <UpdateSubscription />
+              </ProtectedRoute>
             }
           />
           <Route exact path="/privacy-policy" element={<PrivacyPolicy />} />

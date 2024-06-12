@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
 const Register = () => {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(2);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [showGallery, setShowGallery] = useState(false);
@@ -431,7 +431,6 @@ const Register = () => {
             // styles={customStyles}
             onChange={(selected) => setGender(selected.value)}
             required
-            on
           />
           <Select
             isMulti

@@ -1,6 +1,6 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, status
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework.views import APIView
 from .models import *
 from .serializers import *
 from django.shortcuts import render
@@ -114,10 +114,10 @@ class AdminProfileListView(generics.ListAPIView):
     filterset_class = ProfileFilter
     pagination_class = PageNumberPagination
 
-# class ProfileEditAPIView(generics.UpdateAPIView):
-#     permission_classes = (permissions.IsAuthenticated, )
-#     queryset = Profile.objects.all()
-#     serializer_class = ProfileEditSerializer
+# class ContactRevealUpdateView(APIView):
+
+#     def post(self, request):
+
 
 class ProfileDetailAPIView(generics.RetrieveAPIView):
     permission_classes = (permissions.IsAuthenticated, )
