@@ -29,6 +29,7 @@ class CustomUser(AbstractUser):
     last_name = models.CharField(max_length=100, blank=True, null=True)
     email = models.EmailField(unique=True)
     mobile_number = models.CharField(max_length=15, unique=True)
+    revealed_contacts = models.ManyToManyField('self', blank=True, related_name='revealed_to')
     admin_verified = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

@@ -70,6 +70,7 @@
 }
 
 .actor-card p {
+    font-family: inherit;
     font-size: 15px;
     margin: 5px 0;
 }
@@ -102,7 +103,6 @@
 }
 
 .prevent-select {
-    margin-top: -10px;
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
@@ -126,7 +126,7 @@
     padding: 5px;
     position: absolute;
     z-index: 1;
-    bottom: 125%;
+    bottom: 100%;
     left: 50%;
     margin-left: -60px;
     /* opacity: 0; */

@@ -250,6 +250,15 @@ export default function PrimarySearchAppBar({ tags, setTags, onSearch }) {
       sx={{ "& .MuiMenu-paper": { width: 200, marginTop: 5 } }}
     >
       <MenuItem onClick={() => navigate("/platform/profile")}>Profile</MenuItem>
+      <MenuItem onClick={() => navigate("/platform/payment")}>
+        Subscribe
+      </MenuItem>
+      <MenuItem onClick={() => navigate("/platform/payment/cancel")}>
+        Cancel Plan
+      </MenuItem>
+      <MenuItem onClick={() => navigate("/platform/payment/update")}>
+        Update Plan
+      </MenuItem>
       <MenuItem onClick={() => navigate("/platform/logout")}>Logout</MenuItem>
     </Menu>
   );

@@ -46,8 +46,6 @@ const Home = () => {
     });
   }, []);
 
-  console.log(response.profiles);
-
   const handleApplyFilters = (selectedFilters) => {
     setAppliedFilters(selectedFilters);
   };
@@ -141,34 +139,24 @@ const Home = () => {
         onSearch={handleFilterSearch}
         tags={appliedFilters}
         setTags={setAppliedFilters}
-        // filters={filterOptions}
-        // onApplyFilters={handleApplyFilters}
       />
-      {/* <svg
-        xmlns="http://www.w3.org/2000/svg"
-        style={{
-          display: "none",
-          position: "relative",
-          zIndex: 1,
-        }}
-        version="1.1"
-      >
-        <defs>
-          <filter id="blur-filter" x="0" y="0">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="5" />
-          </filter>
-        </defs>
-      </svg> */}
       <div className="profile-card-container">
         <div
-          className="d-flex p-5 w-md-75 mx-auto flex-wrap"
+          className="d-flex p-5 w-md-75 mx-auto flex-wrap justify-content-center"
           style={{
-            gap: "1.2rem",
+            gap: "2rem",
           }}
         >
           {response.profiles.map((profile, index) => {
             return (
-              <ProfileCard key={index} user={user} profile={profile}>
+              <ProfileCard
+                key={index}
+                user={user}
+                profile={profile}
+                revealContactInfo={user.revealed_contacts
+                  .map((contact) => contact.email)
+                  .includes(profile.email)}
+              >
                 {user.is_staff && (
                   <CheckBox
                     checked={profile.admin_verified}

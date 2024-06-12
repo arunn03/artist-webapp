@@ -2,8 +2,9 @@ from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import *
+from billing.models import BillingProfile
 from .serializers import *
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.conf.global_settings import *
 from django.core.mail import EmailMultiAlternatives
 from django.dispatch import receiver
@@ -12,6 +13,8 @@ from django_rest_passwordreset.signals import reset_password_token_created
 from .filters import *
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.pagination import PageNumberPagination
+
+User = get_user_model()
 
 def index(request):
     return render(request, 'index.html')
@@ -89,7 +92,7 @@ class ProfileCreateAPIView(generics.CreateAPIView):
         
         return super().perform_create(serializer)
 
-    def create(self, request, *args, **kwargs):
+    def create(self, request):
         data = request.data
         data['user'] = request.user.id
         serializer = ProfileCreateSerializer(data=data)
@@ -114,10 +117,34 @@ class AdminProfileListView(generics.ListAPIView):
     filterset_class = ProfileFilter
     pagination_class = PageNumberPagination
 
-# class ContactRevealUpdateView(APIView):
+class ContactRevealUpdateView(APIView):
+    def post(self, request):
+        try:
+            data = request.data
+            user = request.user
 
-#     def post(self, request):
+            contact_user = get_object_or_404(User, email=data['contact'])
 
+            billing_profile = get_object_or_404(BillingProfile, user=user)
+            plan = billing_profile.get_plan_display()
+            subscription_status = billing_profile.subscription_status
+
+            if subscription_status == 'active':
+                if plan == 'Silver' and user.revealed_contacts.count() < 1:
+                    user.revealed_contacts.add(contact_user.id)
+                elif plan == 'Gold' and user.revealed_contacts.count() < 3:
+                    user.revealed_contacts.add(contact_user.id)
+                elif plan == 'Platinum' and user.revealed_contacts.count() < 5:
+                    user.revealed_contacts.add(contact_user.id)
+                else:
+                    return Response({'error': {'message': 'Maximum number of contacts reached'}}, status=status.HTTP_400_BAD_REQUEST)
+                user.save()
+                return Response({'message': 'Contact revealed successfully'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'error': {'message': 'Subscription not active'}}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({'error': {'message': str(e)}}, status=status.HTTP_400_BAD_REQUEST)
+        
 
 class ProfileDetailAPIView(generics.RetrieveAPIView):
     permission_classes = (permissions.IsAuthenticated, )
@@ -137,7 +164,6 @@ class ProfileUpdateAPIView(generics.UpdateAPIView):
         user = self.request.user
         files = self.request.FILES
         data = self.request.data
-        print(data)
 
         # Updating user's first and last name
         user.first_name = data.get('first_name', user.first_name)

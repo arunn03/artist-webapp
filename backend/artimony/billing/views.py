@@ -93,7 +93,6 @@ class UpdateSubscriptionView(APIView):
                 'plan_id': plan,
                 'schedule_change_at': 'cycle_end',
                 'customer_notify': 1,
-                'remaining_count': 2000
             }
 
             headers = {

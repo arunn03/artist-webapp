@@ -3,7 +3,11 @@ import "./Home.css";
 import headerImg from "../assets/img/header.png";
 import aboutImg from "../assets/img/about.jpg";
 
+import { useNavigate } from "react-router-dom";
+
 const StaticHome = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="bg-white position-relative">
       <nav className="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0">
@@ -54,7 +58,12 @@ const StaticHome = () => {
             <h1 className="display-2 text-uppercase mb-3">
               Cinema Thoothu! Empowering Talents in Cinema!
             </h1>
-            <button className="attractive-button">Login</button>
+            <button
+              className="attractive-button"
+              onClick={() => navigate("/platform")}
+            >
+              Login
+            </button>
           </div>
           <div className="col-lg-6 px-0 text-right">
             <img className="img-fluid mt-5 mt-lg-0" src={headerImg} alt="" />

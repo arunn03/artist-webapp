@@ -9,9 +9,15 @@ import heightImg from "../assets/img/height.png";
 import Carousel from "./Carousel";
 
 import { useRef, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import client from "../api";
 
-const ProfileCard = ({ profile, user, children }) => {
+const ProfileCard = ({ profile, user, revealContactInfo, children }) => {
   const [showCarousel, setShowCarousel] = useState(false);
+  const [reveal, setReveal] = useState(revealContactInfo);
+  const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
 
   const skinToneRef = useRef();
   // console.log(profile);
@@ -30,7 +36,7 @@ const ProfileCard = ({ profile, user, children }) => {
   var email = profile.email[0];
   var mobile_number = profile.mobile_number.slice(0, 3) + "xxxxxxx";
 
-  if (!user.is_staff) {
+  if (!(user.is_staff || reveal)) {
     for (var i = 1; i < profile.email.length; i++) {
       if (profile.email[i] == "@") {
         email += profile.email.slice(i);
@@ -39,6 +45,22 @@ const ProfileCard = ({ profile, user, children }) => {
       email += "x";
     }
   }
+
+  const handleRevealContact = async () => {
+    try {
+      const response = await client.post("/contact/reveal/", {
+        contact: profile.email,
+      });
+
+      if (response.status === 200) {
+        setReveal(true);
+      } else {
+        setError(response.data.error.message);
+      }
+    } catch (error) {
+      setError(error.response.data.error.message);
+    }
+  };
 
   return (
     <>
@@ -67,29 +89,41 @@ const ProfileCard = ({ profile, user, children }) => {
           {/* <div className="mb-3"></div> */}
           <p className="m-0 mb-2 interests">{interests}</p>
           <p>
-            {user.is_staff ? (
+            {user.is_staff || reveal ? (
               <abbr className="prevent-select tooltip">{profile.email}</abbr>
             ) : (
               <abbr id="blur" className="prevent-select tooltip">
                 {email}
                 <span className="tooltiptext">
-                  <button>
-                    <img id="lock" src={lockImg} alt="" /> Premium
-                  </button>
+                  {user.subscription_status === "active" ? (
+                    <button onClick={handleRevealContact}>
+                      {error ? error : "Reveal"}
+                    </button>
+                  ) : (
+                    <button onClick={() => navigate("/platform/payment")}>
+                      <img id="lock" src={lockImg} alt="" /> Premium
+                    </button>
+                  )}
                 </span>
               </abbr>
             )}
           </p>
           <p>
-            {user.is_staff ? (
+            {user.is_staff || reveal ? (
               profile.mobile_number
             ) : (
               <abbr id="blur" className="prevent-select tooltip">
                 {mobile_number}
                 <span className="tooltiptext">
-                  <button>
-                    <img id="lock" src={lockImg} alt="" /> Premium
-                  </button>
+                  {user.subscription_status === "active" ? (
+                    <button onClick={handleRevealContact}>
+                      {error ? error : "Reveal"}
+                    </button>
+                  ) : (
+                    <button>
+                      <img id="lock" src={lockImg} alt="" /> Premium
+                    </button>
+                  )}
                 </span>
               </abbr>
             )}

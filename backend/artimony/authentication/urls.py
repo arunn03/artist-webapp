@@ -6,8 +6,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 app_name = 'authentication'
 
 urlpatterns = [
-    path('csrf-token/', GetCSRFCookie.as_view(), name='csrf-token'),
-    path('check-authentication/', CheckAuthenticatedView.as_view(), name='check-authentication'),
+    # path('csrf-token/', GetCSRFCookie.as_view(), name='csrf-token'),
+    # path('check-authentication/', CheckAuthenticatedView.as_view(), name='check-authentication'),
     path('register/', UserRegistrationAPIView.as_view(), name='user-registration'),
     path('token/', TokenObtainPairView.as_view(), name='get_token'),
     path('token/refresh/', TokenRefreshView.as_view(), name='refresh_token'),

@@ -42,10 +42,29 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         user.save()
         return user
     
-class UserSerializer(serializers.ModelSerializer):
+class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = 'first_name', 'last_name', 'email', 'mobile_number', 'admin_verified', 'is_staff'
+        fields = 'email', 
+    
+class UserSerializer(serializers.ModelSerializer):
+    revealed_contacts = ContactSerializer(many=True, read_only=True)
+
+    plan = serializers.CharField(source='billingprofile.plan')
+    subscription_status = serializers.CharField(source='billingprofile.subscription_status')
+    class Meta:
+        model = User
+        fields = [
+            'first_name',
+            'last_name',
+            'email',
+            'mobile_number',
+            'admin_verified',
+            'is_staff',
+            'revealed_contacts',
+            'plan',
+            'subscription_status',
+        ]
 
 class EmailListSerializer(serializers.Serializer):
     emails = serializers.ListField(

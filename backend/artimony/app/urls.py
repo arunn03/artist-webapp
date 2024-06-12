@@ -11,11 +11,5 @@ urlpatterns = [
     path('current-profile/', ProfileDetailAPIView.as_view(), name='current-profile'),
     path('profile/update/<str:email>/', ProfileUpdateAPIView.as_view(), name='profile-update'),
     path('admin-profiles/', AdminProfileListView.as_view(), name='admin-profile-list'),
-    # re_path(r'^(?:.*)/?$', index, name='home'),
+    path('contact/reveal/', ContactRevealUpdateView.as_view(), name='contact-reveal'),
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
-urlpatterns += [re_path(r'^(?:.*)/?$', index, name='react')]
